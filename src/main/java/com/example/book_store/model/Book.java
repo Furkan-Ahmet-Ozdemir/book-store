@@ -20,7 +20,6 @@ public class Book {
 
     private Integer numberOfPages;
 
-    @OneToMany
-    @JoinColumn(name = "book_id" )
+    @OneToMany(mappedBy = "book")
     private List<Author> authorList;
 }
