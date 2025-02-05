@@ -1,11 +1,19 @@
 package com.example.book_store.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "book")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,6 +28,6 @@ public class Book {
 
     private Integer numberOfPages;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany
     private List<Author> authorList;
 }

@@ -10,6 +10,7 @@ import com.example.book_store.model.Author;
 import com.example.book_store.repository.AuthorRepository;
 import com.example.book_store.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,15 +18,16 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class AuthorService {
     private final AuthorRepository authorRepository;
     private final AuthorMapper authorMapper;
-    private final BookRepository bookRepository;
-    private final BookMapper bookMapper;
-
 
     public AuthorResponseDto create(AuthorRequestDto request){
+        log.info("AuthorService :: create() ::");
+
         if(authorRepository.existsByNameAndSurName(request.getName(), request.getSurName())){
+            log.error("AuthorService :: create() :: AuthorAlreadyExistException :: Author already exist");
             throw new AuthorAlreadyExistException("Author already exist");
         }
 
@@ -40,7 +42,10 @@ public class AuthorService {
 
     public AuthorResponseDto update(AuthorRequestDto request, Long authorId){
         Author author = authorRepository.findById(authorId)
-                .orElseThrow(() -> new AuthorNotFoundException("Author Not found"));
+                .orElseThrow(() -> {
+                    log.error("AuthorService :: update() :: AuthorNotFoundException :: Author Not found");
+                    return new AuthorNotFoundException("Author Not found");
+                });
 
         author.setName(request.getName());
         author.setSurName(request.getSurName());
@@ -51,9 +56,12 @@ public class AuthorService {
     }
 
     public boolean delete(Long authorId){
-        if(authorRepository.findById(authorId).isEmpty()){
-            throw new AuthorNotFoundException("Author Not found");
-        }
+        authorRepository.findById(authorId)
+                .orElseThrow(() -> {
+                    log.error("AuthorService :: delete() :: AuthorNotFoundException :: Author Not found");
+                    return new AuthorNotFoundException("Author Not found");
+                });
+
         authorRepository.deleteById(authorId);
         return true;
     }
@@ -62,7 +70,7 @@ public class AuthorService {
         List<Author> authors = authorRepository.findAll();
 
         return authors.stream()
-                .map(author -> authorMapper.toDto(author))
+                .map(authorMapper::toDto)
                 .toList();
     }
 
