@@ -39,5 +39,15 @@ public class BookController {
         return ResponseEntity.ok(bookService.getAll());
     }
 
+    @GetMapping("/search")
+    public List<BookResponseDto> searchBooks(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String authorName,
+            @RequestParam(required = false) String publisherName,
+            @RequestParam(required = false) Integer year
+    ) {
+        return bookService.searchBooks(name, authorName, publisherName, year);
+    }
+
 
 }

@@ -9,12 +9,12 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "book")
+@Table(name = "publisher")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Book {
+public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -22,15 +22,6 @@ public class Book {
 
     private String name;
 
-    private Integer yearOfPublication;
-
-    private Integer yearOfWritten;
-
-    private Integer numberOfPages;
-
-    @ManyToMany
-    private List<Author> authorList;
-
-    @ManyToOne
-    private Publisher publisher;
+    @OneToMany
+    private List<Book> book;
 }

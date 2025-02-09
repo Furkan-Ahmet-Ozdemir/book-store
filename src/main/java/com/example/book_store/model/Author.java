@@ -3,6 +3,8 @@ package com.example.book_store.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 
 @Entity
 @Table(name = "author")
@@ -20,7 +22,6 @@ public class Author {
 
     private String surName;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id" )
-    private Book book;
+    @ManyToMany(mappedBy = "authorList")
+    private List<Book> book;
 }

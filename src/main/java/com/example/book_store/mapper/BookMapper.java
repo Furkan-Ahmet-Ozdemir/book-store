@@ -30,6 +30,7 @@ public class BookMapper {
         response.setAuthorNames(entity.getAuthorList().stream()
                 .map(author -> author.getName()+ " " + author.getSurName())
                 .collect(Collectors.toList()));
+        response.setPublisherName(entity.getPublisher().getName());
 
         return response;
     }

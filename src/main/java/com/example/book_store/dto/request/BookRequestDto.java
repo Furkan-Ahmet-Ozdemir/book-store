@@ -34,4 +34,7 @@ public class BookRequestDto {
 
     @NotNull
     private List<Long> authorIdList;
+
+    @NotNull
+    private Long publisherId;
 }
